@@ -21,7 +21,12 @@ module Zipline
 
     def handle_file(streamer, file, name)
       file = normalize(file)
-      write_file(streamer, file, name)
+
+      if file[:file].is_a?(Dir)
+        streamer.add_empty_directory(dirname: name)
+      else
+        write_file(streamer, file, name)
+      end
     end
 
     # This extracts either a url or a local file from the provided file.
